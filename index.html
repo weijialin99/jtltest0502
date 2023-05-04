@@ -91,11 +91,35 @@
 		<select id="doctype" name="doctype">
 			<option value="">請選擇</option>
 			<?php
-				$servername = "192.168.100.200";
-				$username = "username";
-				$password = "password";
+				$servername = "192.168.100.200"; // 伺服器名稱，需要使用MSSQL的格式
+				$username = "your_username"; // 使用者名稱
+				$password = "your_password"; // 密碼
+				$dbname = "your_database_name"; // 資料庫名稱
+				
+				// 建立連線
+				$conn = new PDO("sqlsrv:Server=$servername;Database=$dbname", $username, $password);
+				
+				// 執行SQL查詢
+				$sql = "SELECT DT01 FROM DOCTYP";
+				$stmt = $conn->query($sql);
+				
+				// 將查詢結果放入下拉式選單
+				echo "<select name='doc_type'>";
+				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+					echo "<option value='" . $row['DT01'] . "'>" . $row['DT01'] . "</option>";
+				}
+				echo "</select>";
+				
+				// 關閉連線
+				$conn = null;
+				
+			
+			
+			    $servername = "192.168.100.200";
+				$username = "uta";
+				$password = "uta0302";
 				$dbname = "JTL";
-				$conn = mysqli_connect($servername, $username, $password, $dbname);
+				$conn = new PDO("sqlsrv:Server=$servername;Database=$dbname", $username, $password)
 				if (!$conn) {
 					die("Connection failed: " . mysqli_connect_error());
 				}
